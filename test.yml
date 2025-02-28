@@ -2,5 +2,7 @@
 - hosts: ubuntu
   become: false
   tasks:
-  - name: test
-    ping:
+  - name: disable password for ansible user
+    ansible.builtin.user:
+      name: ansible
+      password: '!'
