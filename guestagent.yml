@@ -1,0 +1,8 @@
+---
+- hosts: ubuntu
+  become: true
+  tasks:
+    - name: update repositories cache and install qemu-guest-agent
+      ansible.builtin.apt:
+        name: qemu-guest-agent
+        update_cache: yes
