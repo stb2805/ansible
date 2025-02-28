@@ -1,4 +1,6 @@
 ---
-- task:
+- hosts: ubuntu
+  become: false
+  tasks:
   - name: test
     ping:
