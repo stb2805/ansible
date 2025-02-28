@@ -2,11 +2,34 @@
 - hosts: ubuntu
   become: true
   vars:
-    hosts_deny: [10.10.10.2] # Wazuh Server
+    wazuh_server: [10.10.10.2] # Wazuh Server
   tasks:
-    - name: Add an Apt signing key, will not download if present
-      ansible.builtin.apt_key:
-        url: https://packages.wazuh.com/key/GPG-KEY-WAZUH
-        keyring: /usr/share/keyrings/wazuh.gpg
-        state: present
-      when: inventory_hostname not in hosts_deny
+    - name: Install wazuh agent
+      when: inventory_hostname not in wazuh_server
+      block:
+      - name: Install the GPG key
+        ansible.builtin.apt_key:
+          url: https://packages.wazuh.com/key/GPG-KEY-WAZUH
+          keyring: /usr/share/keyrings/wazuh.gpg
+          state: present
+
+      - name: Creating a file with content
+        ansible.builtin.copy:
+          dest: "etc/apt/sources.list.d/wazuh.list"
+          content: "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main"
+
+      - name: update repositories cache and install wazuh-agent
+        ansible.builtin.apt:
+          name: wazuh-agent
+          update_cache: yes
+          environment:
+            WAZUH_MANAGER: {{ wazuh_server }}
+
+      - name: enable and start wazuh-agent
+        ansible.builtin.systemd_service:
+          state: started
+          enabled: true
+          name: wazuh-agent
+
+# Install wazuh agent according to documentation:
+# https://documentation.wazuh.com/current/installation-guide/wazuh-agent/wazuh-agent-package-linux.html
