@@ -1,0 +1,9 @@
+---
+- hosts: ubuntu
+  become: true
+  vars:
+    hosts_deny: [10.10.10.2] # Wazuh Server
+  tasks:
+    - name: test
+      ping:
+      when: inventory_hostname not in hosts_deny
