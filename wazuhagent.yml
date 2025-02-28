@@ -15,7 +15,7 @@
 
       - name: Creating a file with content
         ansible.builtin.copy:
-          dest: "etc/apt/sources.list.d/wazuh.list"
+          dest: "/etc/apt/sources.list.d/wazuh.list"
           content: "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main"
 
       - name: update repositories cache and install wazuh-agent
