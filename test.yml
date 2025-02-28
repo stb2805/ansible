@@ -3,6 +3,4 @@
   become: false
   tasks:
   - name: disable password for ansible user
-    ansible.builtin.user:
-      name: ansible
-      password: '!'
+    command: sudo passwd -d ansible
