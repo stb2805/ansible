@@ -4,6 +4,8 @@
   vars:
     hosts_deny: [10.10.10.2] # Wazuh Server
   tasks:
-    - name: test
-      ping:
-      when: inventory_hostname not in hosts_deny
+    - name: Add an Apt signing key, will not download if present
+      ansible.builtin.apt_key:
+        url: https://packages.wazuh.com/key/GPG-KEY-WAZUH
+        keyring: /usr/share/keyrings/wazuh.gpg
+        state: present
