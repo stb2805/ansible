@@ -9,4 +9,4 @@
         url: https://packages.wazuh.com/key/GPG-KEY-WAZUH
         keyring: /usr/share/keyrings/wazuh.gpg
         state: present
-        when: inventory_hostname not in hosts_deny
+      when: inventory_hostname not in hosts_deny
