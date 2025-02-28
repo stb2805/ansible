@@ -22,8 +22,8 @@
         ansible.builtin.apt:
           name: wazuh-agent
           update_cache: yes
-          environment:
-            WAZUH_MANAGER: "{{ wazuh_server }}"
+        environment:
+          WAZUH_MANAGER: "{{ wazuh_server }}"
 
       - name: enable and start wazuh-agent
         ansible.builtin.systemd_service:
