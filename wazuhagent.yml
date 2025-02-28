@@ -2,10 +2,10 @@
 - hosts: ubuntu
   become: true
   vars:
-    wazuh_server: [10.10.10.2] # Wazuh Server
+    wazuh_server: 10.10.10.2 # Wazuh Server
   tasks:
     - name: Install wazuh agent
-      when: inventory_hostname not in wazuh_server
+      when: inventory_hostname not in [wazuh_server]
       block:
       - name: Install the GPG key
         ansible.builtin.apt_key:
