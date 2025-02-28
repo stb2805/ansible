@@ -6,3 +6,8 @@
       ansible.builtin.apt:
         name: qemu-guest-agent
         update_cache: yes
+    - name: enable and start qemu-guest-agent
+      ansible.builtin.systemd_service:
+        state: started
+        enabled: true
+        name: qemu-guest-agent
